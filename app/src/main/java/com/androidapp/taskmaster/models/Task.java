@@ -1,14 +1,12 @@
 package com.androidapp.taskmaster.models;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
+
 
 import java.util.Date;
 
-@Entity
+
 public class Task {
 
-    @PrimaryKey(autoGenerate = true) public Long id;
 
     String title;
     String body;
@@ -23,9 +21,6 @@ public class Task {
         this.state = state;
     }
 
-    public Long getId() {
-        return id;
-    }
 
     public TaskState getState() {
         return state;
