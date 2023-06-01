@@ -30,6 +30,7 @@ android {
 
 dependencies {
     // Amplify API and Datastore dependencies
+    implementation 'com.amplifyframework:core:2.8.4'
     implementation 'com.amplifyframework:aws-api:2.8.4'
     implementation 'com.amplifyframework:aws-datastore:2.8.4'
 
