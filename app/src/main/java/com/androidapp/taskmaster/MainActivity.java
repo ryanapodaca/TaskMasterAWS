@@ -3,7 +3,6 @@ package com.androidapp.taskmaster;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -21,7 +20,6 @@ import com.androidapp.taskmaster.activities.AllTasksActivity;
 import com.androidapp.taskmaster.activities.SettingsActivity;
 import com.androidapp.taskmaster.activities.TaskDetailsActivity;
 import com.androidapp.taskmaster.adapters.TasksRecycleViewAdapter;
-import com.androidapp.taskmaster.database.TaskMasterDatabase;
 import com.androidapp.taskmaster.models.Task;
 
 import java.util.ArrayList;
@@ -29,7 +27,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TASK_NAME_TAG = "taskName";
-    TaskMasterDatabase taskMasterDatabase;
+
     public static final String DATA_BASE_NAME = "task_master_database";
     List<Task> tasks;
     TasksRecycleViewAdapter adapter;
@@ -45,22 +43,10 @@ public class MainActivity extends AppCompatActivity {
         //3. Attach fallback function to onClick method
         // 4. callback logic
 
-        taskMasterDatabase = Room.databaseBuilder(
-                        getApplicationContext(),
-                        TaskMasterDatabase.class,
-                        DATA_BASE_NAME)
-                .fallbackToDestructiveMigration()
-                .allowMainThreadQueries()
-                .build();
 
-        tasks = taskMasterDatabase.taskDAO().findAllTasks();
-
-//        List<Task> tasks = new ArrayList<>();
-//        tasks.add(new Task("dishes"));
-//        tasks.add(new Task("walk dog"));
-//        tasks.add(new Task("trash"));
-//        tasks.add(new Task("errands"));
-//        tasks.add(new Task("laundry"));
+        //TODO: SETUP DB QUERY
+//        tasks = taskMasterDatabase.taskDAO().findAllTasks();
+        tasks = new ArrayList<>();
 
 
         setUpAddTaskButton();
@@ -74,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume () {
         super.onResume();
         tasks.clear();
-        tasks.addAll(taskMasterDatabase.taskDAO().findAllTasks());
+        //TODO:SETUP DB QUERY
+//        tasks.addAll(taskMasterDatabase.taskDAO().findAllTasks());
 //        adapter.notifyDataSetChanged();
 
 

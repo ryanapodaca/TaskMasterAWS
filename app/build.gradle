@@ -29,7 +29,12 @@ android {
 }
 
 dependencies {
+    // Amplify API and Datastore dependencies
+    implementation 'com.amplifyframework:aws-api:2.8.4'
+    implementation 'com.amplifyframework:aws-datastore:2.8.4'
 
+    // Support for Java 8 features
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.5.0'

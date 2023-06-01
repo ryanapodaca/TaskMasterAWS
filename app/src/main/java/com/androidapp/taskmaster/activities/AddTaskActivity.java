@@ -1,7 +1,6 @@
 package com.androidapp.taskmaster.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -13,14 +12,13 @@ import android.widget.Toast;
 
 import com.androidapp.taskmaster.MainActivity;
 import com.androidapp.taskmaster.R;
-import com.androidapp.taskmaster.database.TaskMasterDatabase;
 import com.androidapp.taskmaster.models.Task;
 
 import java.util.Date;
 
 public class AddTaskActivity extends AppCompatActivity {
     private final String TAG = "AddTaskActivity";
-    TaskMasterDatabase taskMasterDatabase;
+
     Spinner taskStateSpinner;
 
     @Override
@@ -35,13 +33,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
         taskStateSpinner = findViewById(R.id.addTaskSpinner);
 
-        taskMasterDatabase = Room.databaseBuilder(
-                getApplicationContext(),
-                TaskMasterDatabase.class,
-                MainActivity.DATA_BASE_NAME)
-                .fallbackToDestructiveMigration()
-                .allowMainThreadQueries()
-                .build();
+
 
         setUpTaskStateSpinner();
         setUpSaveButton();
@@ -66,6 +58,8 @@ public class AddTaskActivity extends AppCompatActivity {
         ));
     }
 
+
+    //TODO: Fix database save
     public void setUpSaveButton() {
         // set listener
         findViewById(R.id.addTaskActivitySubmitButton).setOnClickListener(v -> {
@@ -76,7 +70,7 @@ public class AddTaskActivity extends AppCompatActivity {
                     new Date(),
                     Task.TaskState.fromString(taskStateSpinner.getSelectedItem().toString())
             );
-            taskMasterDatabase.taskDAO().insertTask(newTask);
+//            taskMasterDatabase.taskDAO().insertTask(newTask);
             Toast.makeText(this, "Task saved", Toast.LENGTH_SHORT).show();
         });
     }
