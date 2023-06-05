@@ -10,22 +10,29 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.core.Amplify;
 import com.androidapp.taskmaster.activities.AddTaskActivity;
 import com.androidapp.taskmaster.activities.AllTasksActivity;
 import com.androidapp.taskmaster.activities.SettingsActivity;
 import com.androidapp.taskmaster.activities.TaskDetailsActivity;
 import com.androidapp.taskmaster.adapters.TasksRecycleViewAdapter;
-import com.androidapp.taskmaster.models.Task;
+//import com.androidapp.taskmaster.models.Task;
+import com.amplifyframework.datastore.generated.model.Task;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String TAG = "MainActivity";
+
     public static final String TASK_NAME_TAG = "taskName";
 
     public static final String DATA_BASE_NAME = "task_master_database";
@@ -42,6 +49,24 @@ public class MainActivity extends AppCompatActivity {
         //2. Add event listener to element
         //3. Attach fallback function to onClick method
         // 4. callback logic
+
+//        Team team1 = Team.builder()
+//                .title("team1")
+//                .build();
+//
+//        Team team2 = Team.builder()
+//                .title("team2")
+//                .build();
+//
+//        Team team3 = Team.builder()
+//                .title("team3")
+//                .build();
+
+//        Amplify.API.mutate(
+//                ModelMutation.create(team1),
+//                success -> {},
+//                failure -> {}
+//        );
 
 
         //TODO: SETUP DB QUERY
@@ -62,7 +87,19 @@ public class MainActivity extends AppCompatActivity {
         tasks.clear();
         //TODO:SETUP DB QUERY
 //        tasks.addAll(taskMasterDatabase.taskDAO().findAllTasks());
-//        adapter.notifyDataSetChanged();
+        Amplify.API.query(
+                ModelQuery.list(Task.class),
+                success -> {
+                    Log.i(TAG, "Read Tasks successfully");
+                    tasks.clear();
+//                    tasks = new ArrayList<>();
+                    for (Task databaseTask : success.getData()){
+                        tasks.add(databaseTask);
+                    }
+                    runOnUiThread(()-> adapter.notifyDataSetChanged());
+                },
+                failure -> Log.i(TAG,"Did not read tasks successfully")
+        );
 
 
         preferences = getSharedPreferences(getPackageName() + "_preferences", Context.MODE_PRIVATE);
