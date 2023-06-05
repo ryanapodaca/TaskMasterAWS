@@ -10,16 +10,29 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.datastore.generated.model.TaskStateEnum;
 import com.androidapp.taskmaster.MainActivity;
 import com.androidapp.taskmaster.R;
-import com.androidapp.taskmaster.models.Task;
+import com.amplifyframework.datastore.generated.model.Task;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.concurrent.CompletableFuture;
 
 public class AddTaskActivity extends AppCompatActivity {
     private final String TAG = "AddTaskActivity";
 
     Spinner taskStateSpinner;
+    Spinner taskTeamSpinner;
+
+    CompletableFuture<List<Team>> teamFuture = new CompletableFuture<>();
+    ArrayList<String> teamTitles;
+    ArrayList<Team> Teams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +45,30 @@ public class AddTaskActivity extends AppCompatActivity {
         // 4. callback logic
 
         taskStateSpinner = findViewById(R.id.addTaskSpinner);
+        taskTeamSpinner = findViewById(R.id.addTaskTeamSpinner);
+        teamTitles = new ArrayList<>();
+        Teams = new ArrayList<Team>();
+
+        Amplify.API.query(
+                ModelQuery.list(Team.class),
+                success -> {
+                    Log.i("Read teams successfully")
+                    for (Team databaseTeam : success.getData()){
+                        teamTitles.add(databaseTeam.getTitle());
+                        teams.add(databaseTeam);
+                    }
+                    teamFuture.complete(teams);
+                    runOnUiThread(this::setUpAddTaskSpinners);
+                },
+                failure -> {
+                    teamFuture.complete(null);
+                    Log.e(TAG, "Failed to read teams" + failure);
+                }
+        );
 
 
 
-        setUpTaskStateSpinner();
+//        setUpAddTaskSpinners();
         setUpSaveButton();
 //        Button submitButton = (Button) findViewById(R.id.addTaskActivitySubmitButton);
 //
@@ -50,11 +83,17 @@ public class AddTaskActivity extends AppCompatActivity {
 
     }
 
-    public void setUpTaskStateSpinner() {
+    public void setUpAddTaskSpinners() {
         taskStateSpinner.setAdapter(new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_item,
-                Task.TaskState.values()
+//                Collections.singletonList(Task.STATE)  not sur if this method will work for spinner.
+                TaskStateEnum.values()
+        ));
+        taskTeamSpinner.setAdapter(new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                teamTitles
         ));
     }
 
@@ -63,13 +102,27 @@ public class AddTaskActivity extends AppCompatActivity {
     public void setUpSaveButton() {
         // set listener
         findViewById(R.id.addTaskActivitySubmitButton).setOnClickListener(v -> {
-            System.out.println("hello");
-            Task newTask = new Task(
-                    ((EditText)findViewById(R.id.addTaskTitleTextInput)).getText().toString(),
-                    ((EditText)findViewById(R.id.addTaskDescriptionMultiLine)).getText().toString(),
-                    new Date(),
-                    Task.TaskState.fromString(taskStateSpinner.getSelectedItem().toString())
+            String taskTitle = ((EditText)findViewById(R.id.addTaskTitleTextInput)).getText().toString();
+            String taskBody = ((EditText)findViewById(R.id.addTaskDescriptionMultiLine)).getText().toString();
+//            Task newTask = new Task(
+//                    ((EditText)findViewById(R.id.addTaskTitleTextInput)).getText().toString(),
+//                    ((EditText)findViewById(R.id.addTaskDescriptionMultiLine)).getText().toString(),
+//                    new Date(),
+//                    Task.TaskState.fromString(taskStateSpinner.getSelectedItem().toString())
+//            );
+            Task newTask = Task.builder()
+                    .title(taskTitle)
+                    .body(taskBody)
+                    .date(new Temporal.DateTime(new Date(), 0))
+                    .state((TaskStateEnum) taskStateSpinner.getSelectedItem())
+                    .build();
+
+            Amplify.API.mutate(
+                    ModelMutation.create(newTask),
+                    successResponse -> Log.i(TAG, "AddTaskActivity.onCreate().setUpSaveButton(): made new task successfully."),
+                    errorResponse -> Log.i(TAG, "AddTaskActivity.onCreate().setUpSaveButton(): create new task failed.")
             );
+
 //            taskMasterDatabase.taskDAO().insertTask(newTask);
             Toast.makeText(this, "Task saved", Toast.LENGTH_SHORT).show();
         });
