@@ -21,5 +21,7 @@
     <string name="gym">gym</string>
     <string name="blank_task_name">blank task\n</string>
     <string name="task_frag_text">no task</string>
-    <string name="team_radiobutton1">Team 3</string>
+    <string name="team_radiobutton3">Team 3</string>
+    <string name="radio_button1">Team1</string>
+    <string name="radio_button2">Team2</string>
 </resources>
