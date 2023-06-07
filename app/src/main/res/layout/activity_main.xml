@@ -17,14 +17,14 @@
         app:layout_constraintHorizontal_bias="0.727"
         app:layout_constraintStart_toEndOf="@+id/addTaskButton"
         app:layout_constraintTop_toTopOf="@+id/addTaskButton"
-        app:layout_constraintVertical_bias="0.413" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/addTaskButton"
         android:layout_width="97dp"
         android:layout_height="63dp"
         android:layout_marginStart="52dp"
-        android:layout_marginBottom="44dp"
+        android:layout_marginBottom="100dp"
         android:text="@string/add_task"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -33,7 +33,7 @@
         android:id="@+id/mainActivityUserNameView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="44dp"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.126"
@@ -64,26 +64,55 @@
         android:id="@+id/mainActivityTasksListRecycleView"
         android:layout_width="246dp"
         android:layout_height="412dp"
-        android:layout_marginTop="159dp"
+        android:layout_marginTop="145dp"
         android:layout_marginBottom="160dp"
         android:background="#E6DBDB"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/mainActivityTeamNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
-        android:layout_marginTop="125dp"
+        android:layout_marginTop="110dp"
         android:layout_marginEnd="301dp"
         android:layout_marginBottom="15dp"
         app:layout_constraintBottom_toTopOf="@+id/mainActivityTasksListRecycleView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/mainActivityLoginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="18dp"
+        android:text="Login"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/mainActivityLogoutButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addTaskButton" />
+
+    <Button
+        android:id="@+id/mainActivityLogoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="18dp"
+        android:text="Log Out"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/mainActivityLoginButton"
+        app:layout_constraintTop_toBottomOf="@+id/allTasksButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

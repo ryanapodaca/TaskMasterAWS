@@ -10,16 +10,24 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.auth.AuthUser;
+import com.amplifyframework.auth.AuthUserAttribute;
+import com.amplifyframework.auth.AuthUserAttributeKey;
+import com.amplifyframework.auth.cognito.result.AWSCognitoAuthSignOutResult;
+import com.amplifyframework.auth.options.AuthSignOutOptions;
+import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Team;
 import com.androidapp.taskmaster.activities.AddTaskActivity;
 import com.androidapp.taskmaster.activities.AllTasksActivity;
+import com.androidapp.taskmaster.activities.LoginActivity;
 import com.androidapp.taskmaster.activities.SettingsActivity;
 import com.androidapp.taskmaster.adapters.TasksRecycleViewAdapter;
 //import com.androidapp.taskmaster.models.Task;
@@ -37,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     List<Task> tasks;
     TasksRecycleViewAdapter adapter;
     SharedPreferences preferences;
+
+    AuthUser authUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,12 +96,15 @@ public class MainActivity extends AppCompatActivity {
         setUpAllTasksButton();
         setUpSettingsButton();
         setUpRecycleView();
+        setUpLoginButton();
+        setUpLogoutButton();
 
     }
 
 
     protected void onResume () {
         super.onResume();
+        checkForAuthUser();
         tasks.clear();
         //TODO:SETUP DB QUERY
 //        tasks.addAll(taskMasterDatabase.taskDAO().findAllTasks());
@@ -161,6 +174,63 @@ public class MainActivity extends AppCompatActivity {
         tasksRecycleView.setAdapter(adapter);
 
 
+    }
+
+    public void setUpLoginButton() {
+        Button loginButton = findViewById(R.id.mainActivityLoginButton);
+        loginButton.setOnClickListener(v -> {
+            Intent goToLoginActivity = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(goToLoginActivity);
+        });
+    }
+
+    public void setUpLogoutButton() {
+        Button logoutButton = findViewById(R.id.mainActivityLogoutButton);
+        logoutButton.setOnClickListener(v -> {
+            AuthSignOutOptions options = AuthSignOutOptions.builder()
+                    .globalSignOut(true)
+                    .build();
+
+            Amplify.Auth.signOut(options, signOutResult -> {
+                if (signOutResult instanceof AWSCognitoAuthSignOutResult.CompleteSignOut) {
+                    Log.i(TAG,"Global logout successful!");
+                } else if (signOutResult instanceof AWSCognitoAuthSignOutResult.PartialSignOut) {
+                    Log.i(TAG,"Partial logout successful!");
+                } else if (signOutResult instanceof AWSCognitoAuthSignOutResult.FailedSignOut) {
+                    Log.i(TAG,"Logout failed: " + signOutResult.toString());
+                }
+            });
+        });
+    }
+
+
+    public void checkForAuthUser() {
+        Amplify.Auth.getCurrentUser(
+                success -> {
+                    Log.i(TAG, "User authenticated with username: " + success.getUsername());
+                    authUser = success;
+                    runOnUiThread(this::renderButtons);
+                },
+                failure -> {
+                    Log.i(TAG, "There is no current authenticated user");
+                    authUser = null;
+                    runOnUiThread(this::renderButtons);
+                }
+        );
+    }
+
+    public void renderButtons() {
+        if (authUser == null) {
+            Button loginButton = findViewById(R.id.mainActivityLoginButton);
+            loginButton.setVisibility(View.VISIBLE);
+            Button logoutButton = findViewById(R.id.mainActivityLogoutButton);
+            logoutButton.setVisibility(View.INVISIBLE);
+        } else {
+            Button loginButton = findViewById(R.id.mainActivityLoginButton);
+            loginButton.setVisibility(View.INVISIBLE);
+            Button logoutButton = findViewById(R.id.mainActivityLogoutButton);
+            logoutButton.setVisibility(View.VISIBLE);
+        }
     }
 
 }

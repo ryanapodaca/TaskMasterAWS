@@ -38,3 +38,15 @@ of the task on the task details page.
 ![s1](s1.png)
 ![s2](s2.png)
 ![s3](s3.png)
+
+6 June 23
+
+Today we added three activiies:
+
+Login - The user is prompted to login on the main activity.
+
+Sign Up - 
+on the login page, there is an option to sign up if not already a user. The sign up page asks 
+for an email address and password.  
+
+Verify - verification is to ensure that the new user actually has the email they say they have.  
