@@ -48,33 +48,33 @@ public class MainActivity extends AppCompatActivity {
         //3. Attach fallback function to onClick method
         // 4. callback logic
 
-        Team team1 = Team.builder()
-                .title("team1")
-                .build();
-
-        Team team2 = Team.builder()
-                .title("team2")
-                .build();
-
-        Team team3 = Team.builder()
-                .title("team3")
-                .build();
-
-        Amplify.API.mutate(
-                ModelMutation.create(team1),
-                success -> {},
-                failure -> {}
-        );
-        Amplify.API.mutate(
-                ModelMutation.create(team2),
-                success -> {},
-                failure -> {}
-        );
-        Amplify.API.mutate(
-                ModelMutation.create(team3),
-                success -> {},
-                failure -> {}
-        );
+//        Team team1 = Team.builder()
+//                .title("team1")
+//                .build();
+//
+//        Team team2 = Team.builder()
+//                .title("team2")
+//                .build();
+//
+//        Team team3 = Team.builder()
+//                .title("team3")
+//                .build();
+//
+//        Amplify.API.mutate(
+//                ModelMutation.create(team1),
+//                success -> {},
+//                failure -> {}
+//        );
+//        Amplify.API.mutate(
+//                ModelMutation.create(team2),
+//                success -> {},
+//                failure -> {}
+//        );
+//        Amplify.API.mutate(
+//                ModelMutation.create(team3),
+//                success -> {},
+//                failure -> {}
+//        );
 
 
         //TODO: SETUP DB QUERY
@@ -100,14 +100,14 @@ public class MainActivity extends AppCompatActivity {
                 success -> {
                     Log.i(TAG, "Read Tasks successfully");
                     tasks.clear();
-//                    tasks = new ArrayList<>();
-                    for (Task databaseTask : success.getData()){
-                        String teamName = "team1";
-                        if(databaseTask.getTeamTitle().getTitle().equals(teamName)){
-                            tasks.add(databaseTask);
-                        }
-                    }
-                    runOnUiThread(adapter::notifyDataSetChanged);
+                    tasks = new ArrayList<>();
+//                    for (Task databaseTask : success.getData()){
+//                        String teamName = "team1";
+//                        if(databaseTask.getTeamTitle().getTitle().equals(teamName)){
+//                            tasks.add(databaseTask);
+//                        }
+//                    }
+//                    runOnUiThread(adapter::notifyDataSetChanged);
                 },
                 failure -> Log.i(TAG,"Did not read tasks successfully")
         );
