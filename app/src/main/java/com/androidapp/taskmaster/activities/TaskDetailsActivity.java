@@ -15,11 +15,14 @@ public class TaskDetailsActivity extends AppCompatActivity {
     public static final String TASK_Title_TAG = "taskName";
     public static final String TASK_Body_TAG = "taskBody";
     SharedPreferences preferences;
+    private String taskId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_details);
+
+
 
         Intent intent = getIntent();
         String taskTitle = intent.getStringExtra(TaskDetailsActivity.TASK_Title_TAG);
@@ -42,5 +45,11 @@ public class TaskDetailsActivity extends AppCompatActivity {
 //        preferences = getSharedPreferences(getPackageName() + "_preferences", Context.MODE_PRIVATE);
 //        String task = preferences.getString(TaskDetailsActivity.TASK_Title_TAG, "No task");
 //        ((TextView) findViewById(R.id.taskDetailsActivityInputName)).setText(task);
+    }
+
+    private void displayTaskImage() {
+        //does task have good s3 key?
+        //if, no display.
+
     }
 }
