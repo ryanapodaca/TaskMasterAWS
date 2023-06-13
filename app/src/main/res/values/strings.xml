@@ -26,4 +26,5 @@
     <string name="radio_button2">Team2</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Create Password</string>
+    <string name="speak_button_text">Speak</string>
 </resources>
