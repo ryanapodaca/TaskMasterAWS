@@ -50,3 +50,12 @@ on the login page, there is an option to sign up if not already a user. The sign
 for an email address and password.  
 
 Verify - verification is to ensure that the new user actually has the email they say they have.  
+
+12 June 2023
+
+Today we added analytics on the main page.
+We also added prediction functionality:
+
+A Speak button will speak the text description of tasks on the task details page.
+
+A spanish button will convert the text to spanish on the task details page.
