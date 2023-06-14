@@ -26,6 +26,7 @@ import com.amplifyframework.auth.options.AuthSignOutOptions;
 import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Team;
+import com.androidapp.taskmaster.activities.AdMobActivity;
 import com.androidapp.taskmaster.activities.AddTaskActivity;
 import com.androidapp.taskmaster.activities.AllTasksActivity;
 import com.androidapp.taskmaster.activities.LoginActivity;
@@ -109,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
         setUpRecycleView();
         setUpLoginButton();
         setUpLogoutButton();
+        setUpAdsButton();
 
     }
 
@@ -157,6 +159,14 @@ public class MainActivity extends AppCompatActivity {
         goToAllTasksButton.setOnClickListener(v -> {
             Intent goToAllTasksIntent = new Intent(MainActivity.this, AllTasksActivity.class);
             startActivity(goToAllTasksIntent);
+        });
+    }
+
+    public void setUpAdsButton () {
+        Button goToAdsButton = (Button) findViewById(R.id.mainActvityAdsButton);
+        goToAdsButton.setOnClickListener(v -> {
+            Intent goToAdsIntent = new Intent(MainActivity.this, AdMobActivity.class);
+            startActivity(goToAdsIntent);
         });
     }
 
