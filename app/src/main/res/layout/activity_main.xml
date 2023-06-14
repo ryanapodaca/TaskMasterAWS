@@ -115,4 +115,17 @@
         app:layout_constraintStart_toEndOf="@+id/mainActivityLoginButton"
         app:layout_constraintTop_toBottomOf="@+id/allTasksButton" />
 
+    <Button
+        android:id="@+id/mainActvityAdsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="62dp"
+        android:layout_marginBottom="6dp"
+        android:text="Ads"
+        app:layout_constraintBottom_toTopOf="@+id/mainActivityLoginButton"
+        app:layout_constraintEnd_toStartOf="@+id/allTasksButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/addTaskButton"
+        app:layout_constraintTop_toBottomOf="@+id/mainActivityTasksListRecycleView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

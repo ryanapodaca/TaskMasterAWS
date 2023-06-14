@@ -59,3 +59,11 @@ We also added prediction functionality:
 A Speak button will speak the text description of tasks on the task details page.
 
 A spanish button will convert the text to spanish on the task details page.
+
+13 June 2023
+
+The user can now click on an ads button on the main activity, which will send them to a page
+that demonstrates three kinds of ads:
+1. Banner ads
+2. Interstitial Ads
+3. Reward Ads

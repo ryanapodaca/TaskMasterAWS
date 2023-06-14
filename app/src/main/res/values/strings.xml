@@ -27,4 +27,11 @@
     <string name="email_hint">Email</string>
     <string name="password_hint">Create Password</string>
     <string name="speak_button_text">Speak</string>
+    <string name="title_activity_ad">AdActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="title_activity_ad_mob">AdMobActivity</string>
 </resources>
